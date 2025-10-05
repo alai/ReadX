@@ -1,0 +1,811 @@
+/**
+ * ReadX Chrome Extension - Content Styles
+ * 阅读模式的样式定义
+ */
+
+/* 重置和基础样式 */
+#readx-reading-mode * {
+  box-sizing: border-box;
+}
+
+/* 主容器 */
+.readx-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #ffffff;
+  z-index: 999999;
+  overflow-y: auto;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* 深色主题 */
+.readx-container[data-theme="dark"] {
+  background: #15202b;
+  color: #ffffff;
+}
+
+/* 头部控制栏 */
+.readx-header {
+  position: sticky;
+  top: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #e1e8ed;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1000;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.readx-container[data-theme="dark"] .readx-header {
+  background: rgba(21, 32, 43, 0.95);
+  border-bottom-color: #38444d;
+}
+
+/* 关闭按钮 */
+.readx-close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #657786;
+  transition: all 0.2s ease;
+  min-width: 40px;
+  height: 40px;
+}
+
+.readx-close-btn:hover {
+  background: #f7f9fa;
+  color: #14171a;
+}
+
+.readx-container[data-theme="dark"] .readx-close-btn:hover {
+  background: #1c2938;
+  color: #ffffff;
+}
+
+/* 控制项容器 */
+.readx-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+}
+
+.readx-control-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.readx-control-group label {
+  color: #657786;
+  font-weight: 500;
+  min-width: 40px;
+}
+
+.readx-container[data-theme="dark"] .readx-control-group label {
+  color: #8b98a5;
+}
+
+/* 输入控件样式 */
+.readx-control-group select,
+.readx-control-group input[type="range"] {
+  background: #ffffff;
+  border: 1px solid #e1e8ed;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 13px;
+  color: #14171a;
+}
+
+.readx-container[data-theme="dark"] .readx-control-group select {
+  background: #192734;
+  border-color: #38444d;
+  color: #ffffff;
+}
+
+.readx-control-group input[type="range"] {
+  width: 80px;
+  padding: 0;
+}
+
+.readx-control-group span {
+  font-size: 12px;
+  color: #657786;
+  min-width: 45px;
+}
+
+/* 字体选择器样式 */
+.readx-control-group select {
+  min-width: 120px;
+}
+
+.readx-control-group select optgroup {
+  font-weight: bold;
+  color: #1d9bf0;
+}
+
+.readx-container[data-theme="dark"] .readx-control-group select optgroup {
+  color: #1d9bf0;
+}
+
+.readx-control-group select option {
+  font-weight: normal;
+  padding: 4px 8px;
+}
+
+/* 字体预览样式 */
+.readx-control-group select option[value*="PingFang"] {
+  font-family: "PingFang SC", sans-serif;
+}
+
+.readx-control-group select option[value*="Hiragino"] {
+  font-family: "Hiragino Sans GB", sans-serif;
+}
+
+.readx-control-group select option[value*="YaHei"] {
+  font-family: "Microsoft YaHei", sans-serif;
+}
+
+.readx-control-group select option[value*="SimHei"] {
+  font-family: "SimHei", sans-serif;
+}
+
+.readx-control-group select option[value*="SimSun"] {
+  font-family: "SimSun", serif;
+}
+
+.readx-control-group select option[value*="KaiTi"] {
+  font-family: "KaiTi", serif;
+}
+
+.readx-control-group select option[value*="Arial"] {
+  font-family: "Arial", sans-serif;
+}
+
+.readx-control-group select option[value*="Helvetica"] {
+  font-family: "Helvetica", sans-serif;
+}
+
+.readx-control-group select option[value*="Times"] {
+  font-family: "Times New Roman", serif;
+}
+
+.readx-control-group select option[value*="Georgia"] {
+  font-family: "Georgia", serif;
+}
+
+.readx-control-group select option[value*="Monaco"] {
+  font-family: "Monaco", monospace;
+}
+
+.readx-control-group select option[value*="Consolas"] {
+  font-family: "Consolas", monospace;
+}
+
+/* 主要内容区域 */
+.readx-content {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+/* 推文容器 */
+.readx-tweet {
+  background: transparent;
+}
+
+/* 推文头部 */
+.readx-tweet-header {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e1e8ed;
+}
+
+.readx-container[data-theme="dark"] .readx-tweet-header {
+  border-bottom-color: #38444d;
+}
+
+.readx-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  margin-right: 16px;
+  object-fit: cover;
+}
+
+.readx-user-info {
+  flex: 1;
+}
+
+.readx-user-name {
+  margin: 0 0 4px 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #14171a;
+}
+
+.readx-container[data-theme="dark"] .readx-user-name {
+  color: #ffffff;
+}
+
+.readx-user-handle {
+  margin: 0 0 8px 0;
+  color: #657786;
+  font-size: 15px;
+}
+
+.readx-container[data-theme="dark"] .readx-user-handle {
+  color: #8b98a5;
+}
+
+.readx-timestamp {
+  color: #657786;
+  font-size: 14px;
+}
+
+.readx-container[data-theme="dark"] .readx-timestamp {
+  color: #8b98a5;
+}
+
+/* 推文文本 */
+.readx-tweet-text {
+  margin-bottom: 24px;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  color: #14171a;
+}
+
+.readx-container[data-theme="dark"] .readx-tweet-text {
+  color: #ffffff;
+}
+
+/* 处理推文中的特殊格式 */
+.readx-tweet-text span[style*="font-weight"] {
+  font-weight: 600 !important;
+}
+
+.readx-tweet-text a {
+  color: #1d9bf0;
+  text-decoration: none;
+}
+
+.readx-tweet-text a:hover {
+  text-decoration: underline;
+}
+
+.readx-container[data-theme="dark"] .readx-tweet-text a {
+  color: #1d9bf0;
+}
+
+/* 媒体内容 */
+.readx-media {
+  margin: 24px 0;
+}
+
+.readx-media-image {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.readx-container[data-theme="dark"] .readx-media-image {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* 互动数据 */
+.readx-engagement {
+  padding-top: 20px;
+  border-top: 1px solid #e1e8ed;
+}
+
+.readx-container[data-theme="dark"] .readx-engagement {
+  border-top-color: #38444d;
+}
+
+.readx-stats {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.readx-stat {
+  color: #657786;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.readx-container[data-theme="dark"] .readx-stat {
+  color: #8b98a5;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .readx-header {
+    padding: 12px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .readx-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .readx-control-group {
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-start;
+  }
+  
+  .readx-content {
+    padding: 20px 16px;
+    font-size: 16px;
+  }
+  
+  .readx-tweet-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .readx-avatar {
+    margin: 0 0 12px 0;
+    align-self: center;
+  }
+  
+  .readx-stats {
+    justify-content: center;
+  }
+}
+
+/* 小屏幕优化 */
+@media (max-width: 480px) {
+  .readx-controls {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .readx-control-group {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .readx-control-group input[type="range"] {
+    width: 100px;
+  }
+}
+
+/* 打印样式 */
+@media print {
+  .readx-header {
+    display: none;
+  }
+  
+  .readx-container {
+    position: static;
+    background: white;
+    color: black;
+  }
+  
+  .readx-content {
+    max-width: none;
+    padding: 0;
+  }
+  
+  .readx-tweet-text {
+    color: black;
+  }
+}
+
+/* 滚动条样式 */
+.readx-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.readx-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.readx-container::-webkit-scrollbar-thumb {
+  background: #ccd6dd;
+  border-radius: 4px;
+}
+
+.readx-container[data-theme="dark"]::-webkit-scrollbar-thumb {
+  background: #38444d;
+}
+
+.readx-container::-webkit-scrollbar-thumb:hover {
+  background: #99a5b0;
+}
+
+.readx-container[data-theme="dark"]::-webkit-scrollbar-thumb:hover {
+  background: #4a5761;
+}
+
+/* 动画效果 */
+.readx-container {
+  animation: readxFadeIn 0.3s ease-out;
+}
+
+@keyframes readxFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 选择文本样式 */
+.readx-tweet-text::selection {
+  background: #1d9bf0;
+  color: white;
+}
+
+.readx-container[data-theme="dark"] .readx-tweet-text::selection {
+  background: #1d9bf0;
+  color: white;
+}
+
+/* 焦点样式 */
+.readx-control-group select:focus,
+.readx-control-group input:focus {
+  outline: 2px solid #1d9bf0;
+  outline-offset: 2px;
+}
+
+/* 错误提示样式 */
+.readx-error {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #dc3545;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  z-index: 1001;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+  animation: readxSlideIn 0.3s ease-out;
+}
+
+@keyframes readxSlideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* 加载状态 */
+.readx-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: #657786;
+}
+
+.readx-loading::after {
+  content: '';
+  width: 20px;
+  height: 20px;
+  border: 2px solid #e1e8ed;
+  border-top-color: #1d9bf0;
+  border-radius: 50%;
+  margin-left: 12px;
+  animation: readxSpin 1s linear infinite;
+}
+
+@keyframes readxSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 添加字体按钮 */
+.readx-add-font-btn {
+  background: #1d9bf0;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.readx-add-font-btn:hover {
+  background: #1a8cd8;
+  transform: scale(1.1);
+}
+
+.readx-add-font-btn:active {
+  transform: scale(0.95);
+}
+
+/* 字体对话框 */
+.readx-font-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000000;
+  animation: readxFadeIn 0.2s ease-out;
+}
+
+.readx-font-dialog-content {
+  background: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  animation: readxSlideUp 0.3s ease-out;
+}
+
+@keyframes readxSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.readx-font-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid #e1e8ed;
+}
+
+.readx-font-dialog-header h3 {
+  margin: 0;
+  font-size: 20px;
+  color: #14171a;
+  font-weight: 600;
+}
+
+.readx-dialog-close-btn {
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #657786;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  line-height: 1;
+  padding: 0;
+}
+
+.readx-dialog-close-btn:hover {
+  background: #f7f9fa;
+  color: #14171a;
+}
+
+.readx-font-dialog-body {
+  padding: 20px 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.readx-font-search {
+  margin-bottom: 16px;
+}
+
+.readx-font-search input {
+  width: 100%;
+  padding: 10px 16px;
+  border: 1px solid #e1e8ed;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.readx-font-search input:focus {
+  border-color: #1d9bf0;
+}
+
+.readx-font-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.readx-font-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border: 1px solid #e1e8ed;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.readx-font-item:hover {
+  background: #f7f9fa;
+  border-color: #1d9bf0;
+}
+
+.readx-font-item.added {
+  background: #f0f9ff;
+  border-color: #a8d8f0;
+}
+
+.readx-font-name {
+  flex: 1;
+  font-size: 15px;
+  color: #14171a;
+}
+
+.readx-font-add-btn {
+  background: #1d9bf0;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.readx-font-add-btn:hover:not(:disabled) {
+  background: #1a8cd8;
+}
+
+.readx-font-add-btn:disabled {
+  background: #ccd6dd;
+  cursor: not-allowed;
+}
+
+/* Toast 提示 */
+.readx-toast {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  background: #1d9bf0;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(29, 155, 240, 0.3);
+  z-index: 1000001;
+  opacity: 0;
+  transform: translateX(100%);
+  transition: all 0.3s ease;
+}
+
+.readx-toast.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.readx-toast-error {
+  background: #dc3545;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+.readx-toast-success {
+  background: #10b981;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+/* 深色主题下的对话框样式 */
+.readx-container[data-theme="dark"] .readx-font-dialog-content {
+  background: #192734;
+}
+
+.readx-container[data-theme="dark"] .readx-font-dialog-header {
+  border-bottom-color: #38444d;
+}
+
+.readx-container[data-theme="dark"] .readx-font-dialog-header h3 {
+  color: #ffffff;
+}
+
+.readx-container[data-theme="dark"] .readx-dialog-close-btn {
+  color: #8b98a5;
+}
+
+.readx-container[data-theme="dark"] .readx-dialog-close-btn:hover {
+  background: #1c2938;
+  color: #ffffff;
+}
+
+.readx-container[data-theme="dark"] .readx-font-search input {
+  background: #15202b;
+  border-color: #38444d;
+  color: #ffffff;
+}
+
+.readx-container[data-theme="dark"] .readx-font-item {
+  border-color: #38444d;
+  background: #15202b;
+}
+
+.readx-container[data-theme="dark"] .readx-font-item:hover {
+  background: #1c2938;
+}
+
+.readx-container[data-theme="dark"] .readx-font-item.added {
+  background: #1c3547;
+  border-color: #2b5278;
+}
+
+.readx-container[data-theme="dark"] .readx-font-name {
+  color: #ffffff;
+}
+
+/* 滚动条样式 - 字体列表 */
+.readx-font-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.readx-font-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.readx-font-list::-webkit-scrollbar-thumb {
+  background: #ccd6dd;
+  border-radius: 4px;
+}
+
+.readx-font-list::-webkit-scrollbar-thumb:hover {
+  background: #99a5b0;
+}

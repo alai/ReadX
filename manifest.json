@@ -1,0 +1,58 @@
+{
+  "manifest_version": 3,
+  "name": "ReadX - X.com 阅读模式",
+  "version": "1.0.0",
+  "description": "为 X.com 长帖子提供更好的阅读体验，支持自定义字体、主题和排版。",
+  
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+  
+  "host_permissions": [
+    "https://x.com/*",
+    "https://twitter.com/*"
+  ],
+  
+  "background": {
+    "service_worker": "background.js"
+  },
+  
+  "content_scripts": [
+    {
+      "matches": ["https://x.com/*", "https://twitter.com/*"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_end"
+    }
+  ],
+  
+  "action": {
+    "default_title": "开启阅读模式",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+  
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "reading-mode.html",
+        "reading-mode.css",
+        "reading-mode.js",
+        "icons/*"
+      ],
+      "matches": ["https://x.com/*", "https://twitter.com/*"]
+    }
+  ]
+}

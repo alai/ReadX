@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReadX 插件测试页面</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+            line-height: 1.6;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-button {
+            background: #1d9bf0;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .test-button:hover {
+            background: #1a8cd8;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+        .status.success { background: #d4edda; color: #155724; }
+        .status.error { background: #f8d7da; color: #721c24; }
+        .status.info { background: #d1ecf1; color: #0c5460; }
+        .mock-tweet {
+            border: 1px solid #e1e8ed;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 20px 0;
+            background: #ffffff;
+        }
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 12px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 ReadX Chrome 插件测试页面</h1>
+        
+        <div class="status info">
+            <strong>测试环境：</strong>本页面用于测试插件的核心功能，无需实际安装到Chrome。
+        </div>
+
+        <h2>📝 安装说明</h2>
+        <ol>
+            <li>打开 Chrome 浏览器，访问 <code>chrome://extensions/</code></li>
+            <li>开启右上角的"开发者模式"</li>
+            <li>点击"加载已解压的扩展程序"</li>
+            <li>选择包含 ReadX 插件文件的文件夹</li>
+            <li>访问 X.com 的任意推文页面</li>
+            <li>点击工具栏中的 ReadX 图标</li>
+        </ol>
+
+        <h2>🛠️ 核心功能测试</h2>
+        
+        <div class="mock-tweet" data-testid="tweet">
+            <div class="mock-user" data-testid="User-Name">测试用户 Test User</div>
+            <div class="mock-text" data-testid="tweetText">
+                这是一个模拟的推文内容，用于测试插件的内容提取功能。
+                
+                在实际使用中，插件会自动识别和提取 X.com 页面上的推文内容，
+                包括用户信息、推文文本、互动数据等。
+                
+                插件支持多种自定义选项：
+                - 字体大小调节
+                - 行距调节  
+                - 页面宽度调节
+                - 深色/浅色主题切换
+            </div>
+            <time datetime="2025-10-06T10:00:00.000Z">10:00 AM · Oct 6, 2025</time>
+        </div>
+
+        <button class="test-button" onclick="testContentExtraction()">测试内容提取</button>
+        <button class="test-button" onclick="testReadingMode()">模拟阅读模式</button>
+        <button class="test-button" onclick="testSettings()">测试设置保存</button>
+
+        <div id="test-results"></div>
+
+        <h2>📦 已创建的文件</h2>
+        <div class="code-block">
+ReadX/
+├── manifest.json          # 插件配置文件 ✅
+├── background.js          # 后台服务脚本 ✅  
+├── content.js            # 内容脚本（主要逻辑）✅
+├── content.css           # 阅读模式样式 ✅
+├── README.md            # 安装使用说明 ✅
+├── icons/               # 图标目录 ✅
+│   └── README.txt       # 图标说明
+├── test_page.html       # 测试页面（当前页面）✅
+└── 分析文件/
+    ├── feasibility_report.md  # 可行性分析报告
+    ├── tweet_extractor.js     # 提取器（独立版本）
+    ├── test_extraction.html   # 功能演示页面
+    └── ex_*.html              # 原始测试数据
+        </div>
+
+        <h2>🎯 使用指南</h2>
+        <div class="status success">
+            <strong>第一版插件已完成！</strong>包含了所有要求的核心功能：
+            <ul>
+                <li>✅ 智能内容提取（基于 data-testid 和语义化HTML）</li>
+                <li>✅ 双击ESC或点击X按钮退出阅读模式</li>
+                <li>✅ 字体、行距、宽度、字号自定义</li>
+                <li>✅ Light/Dark 主题切换</li>
+                <li>✅ 设置持久化保存</li>
+                <li>✅ 响应式设计支持</li>
+            </ul>
+        </div>
+
+        <h2>⚠️ 注意事项</h2>
+        <ul>
+            <li><strong>图标文件</strong>: 需要创建实际的PNG图标文件替换 icons/ 目录下的占位符</li>
+            <li><strong>测试环境</strong>: 建议在实际的 X.com 页面上测试插件功能</li>
+            <li><strong>权限</strong>: 插件只请求必要的权限（activeTab, storage）</li>
+            <li><strong>兼容性</strong>: 支持 Chrome 88+ 和最新的 Manifest V3 标准</li>
+        </ul>
+
+        <h2>🚀 下一步优化建议</h2>
+        <ul>
+            <li>🎨 设计专业的插件图标</li>
+            <li>🧪 在更多不同类型的推文上测试</li>
+            <li>📱 优化移动端体验</li>
+            <li>🔧 添加更多自定义选项（如字体系列）</li>
+            <li>🌐 考虑国际化支持</li>
+            <li>📊 添加使用统计（可选）</li>
+        </ul>
+    </div>
+
+    <script>
+        // 模拟内容提取测试
+        function testContentExtraction() {
+            const resultsDiv = document.getElementById('test-results');
+            
+            try {
+                // 模拟提取逻辑
+                const mockTweet = document.querySelector('[data-testid="tweet"]');
+                const userName = mockTweet.querySelector('[data-testid="User-Name"]')?.textContent;
+                const tweetText = mockTweet.querySelector('[data-testid="tweetText"]')?.textContent;
+                const timestamp = mockTweet.querySelector('time')?.getAttribute('datetime');
+                
+                const result = {
+                    user: { name: userName },
+                    text: { text: tweetText?.slice(0, 100) + '...' },
+                    timestamp: { datetime: timestamp }
+                };
+                
+                resultsDiv.innerHTML = `
+                    <div class="status success">
+                        <strong>✅ 内容提取测试成功</strong><br>
+                        用户: ${result.user.name}<br>
+                        内容: ${result.text.text}<br>
+                        时间: ${result.timestamp.datetime}
+                    </div>
+                `;
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="status error">
+                        <strong>❌ 内容提取测试失败</strong><br>
+                        错误: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        // 模拟阅读模式测试
+        function testReadingMode() {
+            const resultsDiv = document.getElementById('test-results');
+            
+            resultsDiv.innerHTML = `
+                <div class="status info">
+                    <strong>📖 阅读模式功能预览</strong><br>
+                    在实际插件中，点击后会：<br>
+                    1. 提取当前推文内容<br>
+                    2. 创建全屏阅读界面<br>
+                    3. 应用用户自定义样式<br>
+                    4. 支持ESC退出和各种控制<br>
+                    <br>
+                    <em>请在 X.com 页面上安装插件进行实际测试</em>
+                </div>
+            `;
+        }
+
+        // 模拟设置测试
+        function testSettings() {
+            const resultsDiv = document.getElementById('test-results');
+            
+            // 模拟设置保存
+            const mockSettings = {
+                theme: 'dark',
+                fontSize: 20,
+                lineHeight: 1.6,
+                maxWidth: 650,
+                fontFamily: 'serif'
+            };
+            
+            localStorage.setItem('readx-test-settings', JSON.stringify(mockSettings));
+            
+            resultsDiv.innerHTML = `
+                <div class="status success">
+                    <strong>💾 设置保存测试成功</strong><br>
+                    已保存设置: ${JSON.stringify(mockSettings, null, 2)}<br>
+                    <br>
+                    在实际插件中，设置会通过 Chrome Storage API 保存，
+                    并在所有设备间同步。
+                </div>
+            `;
+        }
+
+        // 页面加载完成提示
+        window.addEventListener('load', function() {
+            console.log('ReadX 测试页面已加载');
+            console.log('插件文件已创建完成，可以开始安装测试！');
+        });
+    </script>
+</body>
+</html>
