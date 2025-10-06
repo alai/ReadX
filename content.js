@@ -1098,9 +1098,7 @@ class ReadingModeManager {
             <!-- 推文内容 -->
             <div class="readx-tweet-text" ${
               text.language ? `lang="${text.language}"` : ""
-            }>
-              ${text ? text.html : "<p>无法提取推文内容</p>"}
-            </div>
+            }>${text ? text.html : "<p>无法提取推文内容</p>"}</div>
 
             <!-- 媒体内容 -->
             ${

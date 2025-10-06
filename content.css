@@ -329,12 +329,22 @@
 .readx-tweet-text {
   margin-bottom: 24px;
   word-wrap: break-word;
-  white-space: pre-wrap;
+  white-space: pre-line;
   color: #14171a;
 }
 
 .readx-container[data-theme="dark"] .readx-tweet-text {
   color: #ffffff;
+}
+
+/* 处理推文文本内部元素 */
+.readx-tweet-text > * {
+  margin: 0;
+  padding: 0;
+}
+
+.readx-tweet-text > * + * {
+  margin-top: 1em;
 }
 
 /* 处理推文中的特殊格式 */
