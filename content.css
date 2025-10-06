@@ -34,18 +34,60 @@
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid #e1e8ed;
-  padding: 12px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  padding: 2px 20px;
   z-index: 1000;
-  flex-wrap: wrap;
-  gap: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .readx-container[data-theme="dark"] .readx-header {
   background: rgba(21, 32, 43, 0.95);
   border-bottom-color: #38444d;
+}
+
+/* 头部主栏 (设置按钮和关闭按钮) */
+.readx-header-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* 设置按钮 */
+.readx-settings-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #657786;
+  transition: all 0.2s ease;
+  min-width: 40px;
+  height: 40px;
+}
+
+.readx-settings-btn:hover {
+  background: #f7f9fa;
+  color: #1d9bf0;
+}
+
+.readx-settings-btn.active {
+  background: #e8f5fe;
+  color: #1d9bf0;
+}
+
+.readx-container[data-theme="dark"] .readx-settings-btn:hover {
+  background: #1c2938;
+  color: #1d9bf0;
+}
+
+.readx-container[data-theme="dark"] .readx-settings-btn.active {
+  background: #1c2938;
+  color: #1d9bf0;
 }
 
 /* 关闭按钮 */
@@ -80,6 +122,25 @@
   flex-wrap: wrap;
   gap: 20px;
   align-items: center;
+  width: 100%;
+  padding: 12px 0 4px 0;
+  border-top: 1px solid #eff3f4;
+  animation: slideDown 0.2s ease;
+}
+
+.readx-container[data-theme="dark"] .readx-controls {
+  border-top-color: #2f3336;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .readx-control-group {
