@@ -46,6 +46,12 @@ ReadX Mobile 是 ReadX Chrome 扩展的移动端版本，让你在 iPhone/iPad �
 ```javascript
 var s = document.createElement("script");
 s.src = "https://你的域名/ReadX/mobile/readx-mobile.js";
+s.onload = function () {
+  completion("ReadX已加载");
+};
+s.onerror = function () {
+  completion("加载失败");
+};
 document.head.appendChild(s);
 ```
 

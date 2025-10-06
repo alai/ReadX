@@ -685,6 +685,11 @@
     setTimeout(() => {
       window.readingModeManager.toggleReadingMode();
       console.log("✅ ReadX Mobile 已启动");
+      
+      // 通知快捷指令任务完成（如果在快捷指令环境中）
+      if (typeof completion !== 'undefined') {
+        completion({ success: true, message: 'ReadX Mobile 已启动' });
+      }
     }, 300);
   }
 

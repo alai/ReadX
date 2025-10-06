@@ -57,6 +57,12 @@ git push -u origin main
 ```javascript
 var s = document.createElement("script");
 s.src = "https://你的用户名.github.io/ReadX/mobile/readx-mobile.js";
+s.onload = function () {
+  completion("ReadX已加载");
+};
+s.onerror = function () {
+  completion("加载失败");
+};
 document.head.appendChild(s);
 ```
 
