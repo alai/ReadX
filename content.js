@@ -43,7 +43,30 @@ class ReadXExtractor {
     return null;
   }
 
+  /**
+   * 检测当前页面是否为 Article 页面
+   * @returns {boolean} 是否为 Article 页面
+   */
+  isArticlePage() {
+    const articleView = document.querySelector(
+      '[data-testid="twitterArticleRichTextView"]'
+    );
+    const draftEditor = document.querySelector(".DraftEditor-root");
+    const contentBlocks = document.querySelectorAll('[data-block="true"]');
+
+    return !!(articleView && draftEditor && contentBlocks.length > 0);
+  }
+
   extractMainTweet() {
+    // 检测页面类型，决定使用哪种提取方式
+    if (this.isArticlePage()) {
+      console.log("检测到 Article 页面，使用 Article 提取器");
+      const articleExtractor = new ArticleExtractor();
+      return articleExtractor.extract();
+    }
+
+    // 普通推文提取逻辑（保持原有功能）
+    console.log("检测到普通推文页面，使用标准提取器");
     const tweetContainer = this.findElementByPriority(
       this.selectors.tweetContainers
     );
@@ -139,6 +162,159 @@ class ReadXExtractor {
     });
 
     return media;
+  }
+}
+
+// Article 内容提取器类
+class ArticleExtractor {
+  constructor() {
+    this.selectors = {
+      articleView: '[data-testid="twitterArticleRichTextView"]',
+      draftEditor: ".DraftEditor-root",
+      contentBlocks: '[data-block="true"]',
+      textSpans: 'span[data-text="true"]',
+      title: '[data-testid="twitter-article-title"]',
+      authorName: '[data-testid="User-Name"]',
+      authorUsername: '[data-testid="User-Names"] a[href^="/"]',
+      timestamp: "time[datetime]",
+    };
+  }
+
+  /**
+   * 提取完整的 Article 内容
+   * @returns {Object} 提取的内容对象
+   */
+  extract() {
+    return {
+      type: "article", // 标记内容类型为 article
+      title: this.extractTitle(),
+      user: this.extractAuthor(),
+      content: this.extractContent(),
+      timestamp: this.extractTimestamp(),
+      // 保持与普通推文相同的结构，方便后续渲染
+      text: null, // Article 不使用 text 字段
+      engagement: {}, // Article 页面暂不提取互动数据
+      media: [], // 媒体已包含在 content 中
+    };
+  }
+
+  /**
+   * 提取文章标题
+   * @returns {string} 标题文本
+   */
+  extractTitle() {
+    const titleElement = document.querySelector(this.selectors.title);
+    return titleElement ? titleElement.textContent.trim() : "";
+  }
+
+  /**
+   * 提取作者信息
+   * @returns {Object} 作者信息对象
+   */
+  extractAuthor() {
+    const author = {};
+
+    const nameElement = document.querySelector(this.selectors.authorName);
+    if (nameElement) {
+      author.name = nameElement.textContent.trim();
+    }
+
+    const usernameElement = document.querySelector(
+      this.selectors.authorUsername
+    );
+    if (usernameElement) {
+      author.handle = usernameElement.textContent.trim();
+      if (!author.handle.startsWith("@")) {
+        author.handle = "@" + author.handle;
+      }
+    }
+
+    return author;
+  }
+
+  /**
+   * 提取时间戳
+   * @returns {Object|null} 时间戳对象
+   */
+  extractTimestamp() {
+    const timeElement = document.querySelector(this.selectors.timestamp);
+    if (!timeElement) return null;
+
+    return {
+      datetime: timeElement.getAttribute("datetime"),
+      text: timeElement.textContent.trim(),
+      timestamp: new Date(timeElement.getAttribute("datetime")),
+    };
+  }
+
+  /**
+   * 提取文章主体内容
+   * @returns {Array} 内容块数组
+   */
+  extractContent() {
+    const contentBlocks = document.querySelectorAll(
+      this.selectors.contentBlocks
+    );
+    const content = [];
+
+    contentBlocks.forEach((block, index) => {
+      const blockData = this.extractBlock(block, index);
+      if (blockData) {
+        content.push(blockData);
+      }
+    });
+
+    return content;
+  }
+
+  /**
+   * 提取单个内容块
+   * @param {Element} block DOM 元素
+   * @param {number} index 块索引
+   * @returns {Object|null} 内容块对象
+   */
+  extractBlock(block, index) {
+    const className = block.className;
+
+    // 判断块类型
+    let type = "paragraph";
+    if (className.includes("longform-header-two")) {
+      type = "heading";
+    } else if (className.includes("longform-blockquote")) {
+      type = "quote";
+    } else if (className.includes("longform-list-item")) {
+      type = "list";
+    } else if (block.querySelector("img")) {
+      type = "image";
+    }
+
+    // 提取文本内容
+    let text = "";
+    if (type !== "image") {
+      const textSpans = block.querySelectorAll(this.selectors.textSpans);
+      text = Array.from(textSpans)
+        .map((span) => span.textContent)
+        .join("");
+    }
+
+    // 提取图片
+    let image = null;
+    if (type === "image") {
+      const img = block.querySelector("img");
+      if (img) {
+        image = {
+          src: img.src,
+          alt: img.alt || "",
+        };
+      }
+    }
+
+    return {
+      type,
+      text,
+      image,
+      index,
+    };
   }
 }
 
@@ -1004,6 +1180,12 @@ class ReadingModeManager {
   }
 
   async generateReadingModeHTML(content, settings) {
+    // 检测内容类型，使用不同的渲染方式
+    if (content.type === "article") {
+      return this.generateArticleHTML(content, settings);
+    }
+
+    // 普通推文渲染逻辑（保持原有）
     const { text, user, engagement, timestamp, media } = content;
 
     // 获取字体选项HTML
@@ -1151,6 +1333,181 @@ class ReadingModeManager {
         </main>
       </div>
     `;
+  }
+
+  /**
+   * 生成 Article 页面的 HTML
+   * @param {Object} content - Article 内容
+   * @param {Object} settings - 用户设置
+   * @returns {Promise<string>} HTML 字符串
+   */
+  async generateArticleHTML(content, settings) {
+    const { title, user, content: articleContent, timestamp } = content;
+
+    // 获取字体选项HTML
+    const fontOptions = await this.generateFontOptions(settings.fontFamily);
+
+    return `
+      <div id="readx-reading-mode" class="readx-container readx-article">
+        <!-- 头部控制栏 -->
+        <header class="readx-header">
+          <div class="readx-header-main">
+            <button id="readx-settings-toggle" class="readx-settings-btn" title="设置">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/>
+              </svg>
+            </button>
+            
+            <button id="readx-close" class="readx-close-btn" title="退出阅读模式 (ESC ESC)">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+              </svg>
+            </button>
+          </div>
+          
+          <div class="readx-controls" id="readx-controls-panel" style="display: none;">
+            <div class="readx-control-group">
+              <label>主题:</label>
+              <select id="readx-theme">
+                <option value="light" ${
+                  settings.theme === "light" ? "selected" : ""
+                }>浅色</option>
+                <option value="dark" ${
+                  settings.theme === "dark" ? "selected" : ""
+                }>深色</option>
+              </select>
+            </div>
+            
+            <div class="readx-control-group">
+              <label>字号:</label>
+              <input type="range" id="readx-font-size" min="14" max="24" value="${
+                settings.fontSize
+              }">
+              <span id="readx-font-size-value">${settings.fontSize}px</span>
+            </div>
+            
+            <div class="readx-control-group">
+              <label>行距:</label>
+              <input type="range" id="readx-line-height" min="1.2" max="2.5" step="0.1" value="${
+                settings.lineHeight
+              }">
+              <span id="readx-line-height-value">${settings.lineHeight}</span>
+            </div>
+            
+            <div class="readx-control-group">
+              <label>宽度:</label>
+              <input type="range" id="readx-max-width" min="500" max="900" step="50" value="${
+                settings.maxWidth
+              }">
+              <span id="readx-max-width-value">${settings.maxWidth}px</span>
+            </div>
+            
+            <div class="readx-control-group">
+              <label>字体:</label>
+              <select id="readx-font-family">
+                ${fontOptions}
+              </select>
+              <button id="readx-add-font" class="readx-add-font-btn" title="添加用户字体">+</button>
+            </div>
+          </div>
+        </header>
+
+        <!-- 主要内容区域 -->
+        <main class="readx-content">
+          <article class="readx-article-content">
+            <!-- 文章标题 -->
+            <h1 class="readx-article-title">${title || "未命名文章"}</h1>
+
+            <!-- 作者信息 -->
+            <div class="readx-article-meta">
+              <span class="readx-author-name">${user.name || "未知作者"}</span>
+              <span class="readx-author-handle">${user.handle || ""}</span>
+              ${
+                timestamp
+                  ? `<time datetime="${timestamp.datetime}" class="readx-timestamp">${timestamp.text}</time>`
+                  : ""
+              }
+            </div>
+
+            <!-- 文章内容 -->
+            <div class="readx-article-body">
+              ${this.renderArticleContent(articleContent)}
+            </div>
+          </article>
+        </main>
+      </div>
+    `;
+  }
+
+  /**
+   * 渲染 Article 内容块
+   * @param {Array} content - 内容块数组
+   * @returns {string} HTML 字符串
+   */
+  renderArticleContent(content) {
+    if (!content || content.length === 0) {
+      return '<p class="readx-article-paragraph">无法提取文章内容</p>';
+    }
+
+    return content
+      .map((block) => {
+        switch (block.type) {
+          case "heading":
+            return `<h2 class="readx-article-heading">${this.escapeHtml(
+              block.text
+            )}</h2>`;
+
+          case "quote":
+            return `<blockquote class="readx-article-quote">${this.escapeHtml(
+              block.text
+            )}</blockquote>`;
+
+          case "list":
+            return `<li class="readx-article-list-item">${this.escapeHtml(
+              block.text
+            )}</li>`;
+
+          case "image":
+            if (block.image) {
+              return `<figure class="readx-article-image">
+              <img src="${block.image.src}" alt="${this.escapeHtml(
+                block.image.alt
+              )}" />
+              ${
+                block.image.alt
+                  ? `<figcaption>${this.escapeHtml(
+                      block.image.alt
+                    )}</figcaption>`
+                  : ""
+              }
+            </figure>`;
+            }
+            return "";
+
+          case "paragraph":
+          default:
+            // 空段落跳过
+            if (!block.text || block.text.trim() === "") {
+              return "";
+            }
+            return `<p class="readx-article-paragraph">${this.escapeHtml(
+              block.text
+            )}</p>`;
+        }
+      })
+      .join("\n");
+  }
+
+  /**
+   * HTML 转义，防止 XSS
+   * @param {string} text - 原始文本
+   * @returns {string} 转义后的文本
+   */
+  escapeHtml(text) {
+    if (!text) return "";
+    const div = document.createElement("div");
+    div.textContent = text;
+    return div.innerHTML;
   }
 
   applyReadingModeStyles(settings) {
