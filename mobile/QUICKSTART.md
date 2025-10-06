@@ -27,6 +27,7 @@ git push -u origin main
 ```
 
 **启用 GitHub Pages**：
+
 1. 进入 GitHub 仓库 → Settings → Pages
 2. Source 选择 `main` 分支
 3. 保存，等待 1-2 分钟部署完成
@@ -43,6 +44,7 @@ git push -u origin main
 2. **创建新快捷指令**：点击右上角 `+`
 
 3. **添加操作 1 - 打开 URL**：
+
    - 搜索"Safari"
    - 选择"在 Safari 中打开 URL"
    - URL 设置为：`快捷方式输入`（点击选择变量）
@@ -53,8 +55,8 @@ git push -u origin main
    - 粘贴以下代码（**替换 URL**）：
 
 ```javascript
-var s=document.createElement('script');
-s.src='https://你的用户名.github.io/ReadX/mobile/readx-mobile.js';
+var s = document.createElement("script");
+s.src = "https://你的用户名.github.io/ReadX/mobile/readx-mobile.js";
 document.head.appendChild(s);
 ```
 
@@ -151,6 +153,7 @@ mobile/
 ### 问题：点击快捷指令后页面空白
 
 **检查**：
+
 ```bash
 # 在浏览器中直接访问：
 https://你的用户名.github.io/ReadX/mobile/readx-mobile.js
@@ -160,6 +163,7 @@ https://你的用户名.github.io/ReadX/mobile/readx-mobile.js
 ```
 
 **解决**：
+
 1. 确认 GitHub Pages 已启用
 2. 等待 1-2 分钟让部署完成
 3. 检查仓库是否为 Public（私有仓库需要 Pro 账号）
@@ -169,6 +173,7 @@ https://你的用户名.github.io/ReadX/mobile/readx-mobile.js
 ### 问题：找不到"ReadX 阅读"快捷指令
 
 **解决**：
+
 1. 打开快捷指令 App，确认快捷指令存在
 2. 点击快捷指令右上角的 `...` → 分享
 3. 确保"在分享表单中显示"已开启
@@ -179,10 +184,12 @@ https://你的用户名.github.io/ReadX/mobile/readx-mobile.js
 ### 问题：提示"无法提取内容"
 
 **原因**：
+
 - 不在推文或 Article 页面上
 - 页面未加载完成
 
 **解决**：
+
 1. 确保在 X.com 的推文详情页或 Article 页面
 2. 等待页面完全加载（看到完整内容）
 3. 再次运行快捷指令
@@ -194,6 +201,7 @@ https://你的用户名.github.io/ReadX/mobile/readx-mobile.js
 ### 基础使用
 
 阅读 [`mobile/README.md`](./README.md) 了解：
+
 - 详细使用说明
 - 界面功能介绍
 - 常见问题解答
@@ -207,6 +215,7 @@ https://你的用户名.github.io/ReadX/mobile/readx-mobile.js
 ### 分享给朋友
 
 将 `mobile/install.html` 部署到网上：
+
 - 访问：`https://你的用户名.github.io/ReadX/mobile/install.html`
 - 这是一个漂亮的安装指南页面
 - 可以直接分享这个链接给朋友
@@ -218,6 +227,7 @@ https://你的用户名.github.io/ReadX/mobile/readx-mobile.js
 ### 添加到主屏幕（可选）
 
 如果经常使用，可以：
+
 1. 在 Safari 中打开任意 X.com 页面
 2. 点击分享 → "添加到主屏幕"
 3. 命名为"X 阅读"
@@ -242,6 +252,7 @@ https://你的用户名.github.io/ReadX/mobile/readx-mobile.js
 现在你已经可以在手机上享受清爽的 X.com 阅读体验了！
 
 有问题？查看：
+
 - **详细文档**：`mobile/README.md`
 - **安装指南**：`mobile/install.html`
 - **核心代码**：`mobile/readx-mobile.js`

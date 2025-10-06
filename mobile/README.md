@@ -28,10 +28,12 @@ ReadX Mobile 是 ReadX Chrome 扩展的移动端版本，让你在 iPhone/iPad �
 1. **打开快捷指令 App**（iOS 系统自带）
 
 2. **创建新快捷指令**
+
    - 点击右上角"+"号
    - 点击"添加操作"
 
 3. **添加"在 Safari 中打开 URL"**
+
    - 搜索"Safari"
    - 选择"在 Safari 中打开 URL"
    - URL 设置为：`快捷方式输入`（选择变量）
@@ -42,8 +44,8 @@ ReadX Mobile 是 ReadX Chrome 扩展的移动端版本，让你在 iPhone/iPad �
    - 粘贴以下代码：
 
 ```javascript
-var s=document.createElement('script');
-s.src='https://你的域名/ReadX/mobile/readx-mobile.js';
+var s = document.createElement("script");
+s.src = "https://你的域名/ReadX/mobile/readx-mobile.js";
 document.head.appendChild(s);
 ```
 
@@ -77,10 +79,15 @@ X App 中看到推文
 1. **复制代码**：
 
 ```javascript
-javascript:(function(){var s=document.createElement('script');s.src='https://你的域名/ReadX/mobile/readx-mobile.js';document.head.appendChild(s);})();
+javascript: (function () {
+  var s = document.createElement("script");
+  s.src = "https://你的域名/ReadX/mobile/readx-mobile.js";
+  document.head.appendChild(s);
+})();
 ```
 
 2. **创建书签**：
+
    - 在 Safari 中打开任意网页
    - 点击分享按钮 → "添加书签"
    - 名称：`ReadX 阅读`
@@ -114,6 +121,7 @@ Safari 中打开 x.com 推文/Article
 ### 进入阅读模式
 
 1. **从 X App**：
+
    - 打开推文或 Article
    - 点击分享 → "ReadX 阅读"快捷指令
    - 等待 Safari 打开并自动进入阅读模式
@@ -126,6 +134,7 @@ Safari 中打开 x.com 推文/Article
 ### 调整设置
 
 1. **打开设置面板**：
+
    - 点击左上角 ⚙️ 图标
 
 2. **可用设置**：
@@ -156,6 +165,7 @@ Safari 中打开 x.com 推文/Article
 ### 内容区域
 
 **Article 页面**：
+
 - 大标题（28px）
 - 作者信息和时间
 - 格式化的文章内容：
@@ -166,6 +176,7 @@ Safari 中打开 x.com 推文/Article
   - 图片（自适应宽度）
 
 **普通推文**：
+
 - 用户头像和信息
 - 推文文本（18px）
 - 图片（如有）
@@ -184,6 +195,7 @@ Safari 中打开 x.com 推文/Article
 1. **创建 GitHub 仓库**（如果还没有）
 
 2. **上传文件**：
+
    ```bash
    cd /Users/alai/Projects/ReadX
    git add mobile/
@@ -192,12 +204,14 @@ Safari 中打开 x.com 推文/Article
    ```
 
 3. **启用 GitHub Pages**：
+
    - 进入仓库 Settings
    - 找到 Pages 部分
    - Source 选择 `main` 分支
    - 保存
 
 4. **获取 URL**：
+
    ```
    https://你的用户名.github.io/ReadX/mobile/readx-mobile.js
    ```
@@ -236,11 +250,13 @@ Safari 中打开 x.com 推文/Article
 ### Q: 为什么快捷指令运行后页面是空白的？
 
 **A**: 可能的原因：
+
 1. **网络问题**：检查是否能访问托管的 JS 文件
 2. **URL 错误**：确认 `readx-mobile.js` 的 URL 正确
 3. **页面未加载完成**：等待几秒再运行快捷指令
 
 **解决方法**：
+
 - 在 Safari 中直接访问 JS 文件 URL，确认可以访问
 - 检查 Safari 控制台是否有错误信息
 
@@ -249,11 +265,13 @@ Safari 中打开 x.com 推文/Article
 ### Q: 在 X App 中分享时找不到"ReadX 阅读"？
 
 **A**: 可能的原因：
+
 1. **快捷指令未保存**：确认已保存快捷指令
 2. **分享菜单需要滚动**：向下滚动分享菜单
 3. **未启用分享**：检查快捷指令设置
 
 **解决方法**：
+
 - 打开快捷指令 App，确认"ReadX 阅读"存在
 - 在快捷指令详情中，启用"在分享表单中显示"
 
@@ -262,11 +280,13 @@ Safari 中打开 x.com 推文/Article
 ### Q: 为什么有的内容提取不完整？
 
 **A**: 可能的原因：
+
 1. **页面未加载完成**：等待 X.com 页面完全加载
 2. **DOM 结构变化**：X.com 可能更新了页面结构
 3. **特殊内容格式**：某些特殊格式的内容可能不支持
 
 **解决方法**：
+
 - 等待页面加载完成（看到完整内容）再运行
 - 刷新页面重试
 - 检查控制台错误信息
@@ -278,6 +298,7 @@ Safari 中打开 x.com 推文/Article
 **A**: 不可以。每次都需要从网络加载 `readx-mobile.js` 文件。
 
 **未来改进**：
+
 - 可以使用 Service Worker 实现离线缓存
 - 或者开发独立的 iOS App（可离线使用）
 
@@ -291,7 +312,8 @@ Safari 中打开 x.com 推文/Article
 
 ### Q: 如何更新到最新版本？
 
-**A**: 
+**A**:
+
 1. 如果使用 GitHub Pages，只需 `git push` 新版本
 2. 用户无需任何操作，下次运行时自动加载最新版
 3. 如果需要立即更新，清除 Safari 缓存
@@ -325,13 +347,13 @@ function getMobileCSS() {
 function init() {
   injectCSS();
   window.readingModeManager = new ReadingModeManager();
-  
+
   // 发送统计
-  fetch('https://你的统计API/track', {
-    method: 'POST',
-    body: JSON.stringify({ event: 'readx_mobile_init' })
+  fetch("https://你的统计API/track", {
+    method: "POST",
+    body: JSON.stringify({ event: "readx_mobile_init" }),
   });
-  
+
   // ... 其他代码
 }
 ```
@@ -352,6 +374,7 @@ function init() {
 如果快捷指令方案验证成功，可以考虑开发：
 
 1. **iOS Share Extension**
+
    - 在分享菜单中原生显示
    - 更快的启动速度
    - 可以保存阅读历史

@@ -11,6 +11,7 @@
 ### 1. **核心代码文件**
 
 #### `mobile/readx-mobile.js` - 完整版本
+
 - ✅ 包含所有提取器代码（ReadXExtractor, ArticleExtractor）
 - ✅ 包含阅读模式管理器（ReadingModeManager）
 - ✅ 包含移动端优化 CSS
@@ -19,6 +20,7 @@
 - ✅ 文件大小：~50KB
 
 #### `mobile/bookmarklet.js` - 骨架版本
+
 - 动态加载核心代码的轻量版
 - 适用于需要分离 JS 和 CSS 的场景
 
@@ -27,6 +29,7 @@
 ### 2. **用户文档**
 
 #### `mobile/install.html` - 可视化安装指南
+
 - 🎨 精美的网页界面
 - 📱 两种安装方式（快捷指令 + Bookmarklet）
 - 📋 逐步安装说明
@@ -35,6 +38,7 @@
 - 🚀 托管部署说明
 
 #### `mobile/README.md` - 完整使用文档
+
 - 概述和特性介绍
 - 详细安装步骤
 - 使用说明和界面介绍
@@ -44,6 +48,7 @@
 - 未来计划
 
 #### `mobile/QUICKSTART.md` - 5 分钟快速上手
+
 - 快速部署流程（3 步骤）
 - 验证清单
 - 快速故障排除
@@ -55,14 +60,14 @@
 
 ### 为什么选择这个方案？
 
-| 优势 | 说明 |
-|------|------|
-| **最快实现** | 2 小时完成，今天就能用 |
-| **零成本** | 不需要开发者账号 |
-| **零安装** | 使用系统自带功能 |
-| **从 X App 直接启动** | 分享菜单中一键启动 |
-| **覆盖面广** | iOS 和 iPadOS 都支持 |
-| **易维护** | 更新代码后自动生效 |
+| 优势                  | 说明                   |
+| --------------------- | ---------------------- |
+| **最快实现**          | 2 小时完成，今天就能用 |
+| **零成本**            | 不需要开发者账号       |
+| **零安装**            | 使用系统自带功能       |
+| **从 X App 直接启动** | 分享菜单中一键启动     |
+| **覆盖面广**          | iOS 和 iPadOS 都支持   |
+| **易维护**            | 更新代码后自动生效     |
 
 ### 工作原理
 
@@ -99,6 +104,7 @@ git push
 ```
 
 **结果**：
+
 - URL: `https://你的用户名.github.io/ReadX/mobile/readx-mobile.js`
 - 安装页面: `https://你的用户名.github.io/ReadX/mobile/install.html`
 
@@ -115,8 +121,8 @@ git push
 4. 添加"在网页上运行 JavaScript"操作
    - 粘贴代码（替换 URL）：
    ```javascript
-   var s=document.createElement('script');
-   s.src='https://你的用户名.github.io/ReadX/mobile/readx-mobile.js';
+   var s = document.createElement("script");
+   s.src = "https://你的用户名.github.io/ReadX/mobile/readx-mobile.js";
    document.head.appendChild(s);
    ```
 5. 命名为"ReadX 阅读"并保存
@@ -201,12 +207,14 @@ mobile/
 ### 立即可做
 
 1. **部署到 GitHub Pages**（5 分钟）
+
    ```bash
    git push
    # 启用 Pages
    ```
 
 2. **创建快捷指令**（2 分钟）
+
    - 按照 `QUICKSTART.md` 操作
 
 3. **测试验证**（1 分钟）
@@ -216,10 +224,12 @@ mobile/
 ### 可选优化
 
 1. **自定义域名**
+
    - 绑定自己的域名到 GitHub Pages
    - 更短、更好记的 URL
 
 2. **CDN 加速**
+
    - 使用 jsDelivr 或 Cloudflare CDN
    - 提升加载速度
 
@@ -246,6 +256,7 @@ mobile/
 如果用户反馈好，值得投入开发：
 
 1. **iOS Share Extension**
+
    - 时间：3-5 天
    - 体验：⭐⭐⭐⭐⭐
    - 成本：需要开发者账号（$99/年）
@@ -262,15 +273,18 @@ mobile/
 ## 🎁 交付清单
 
 ### 代码文件 ✅
+
 - [x] `mobile/readx-mobile.js` - 完整可用的移动端代码
 - [x] `mobile/bookmarklet.js` - 骨架版本（可选）
 
 ### 文档文件 ✅
+
 - [x] `mobile/install.html` - 可视化安装指南
 - [x] `mobile/README.md` - 完整使用文档
 - [x] `mobile/QUICKSTART.md` - 5 分钟快速上手
 
 ### 功能特性 ✅
+
 - [x] 支持普通推文
 - [x] 支持 Article 页面
 - [x] 移动端 UI 优化
@@ -279,6 +293,7 @@ mobile/
 - [x] 快捷指令集成
 
 ### 用户体验 ✅
+
 - [x] 从 X App 一键启动
 - [x] 自动检测页面类型
 - [x] 快速加载（< 3 秒）

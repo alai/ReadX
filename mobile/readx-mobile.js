@@ -1,13 +1,13 @@
 /**
  * ReadX Mobile - 完整版
  * 包含所有核心代码的单文件版本，适用于 Bookmarklet 和快捷指令
- * 
+ *
  * 使用方法：
  * javascript:(function(){var s=document.createElement('script');s.src='https://your-domain.github.io/ReadX/mobile/readx-mobile.js';document.head.appendChild(s);})();
  */
 
-(function() {
-  'use strict';
+(function () {
+  "use strict";
 
   // 防止重复注入
   if (window.ReadXMobileActive) {
@@ -18,7 +18,10 @@
   }
   window.ReadXMobileActive = true;
 
-  console.log('%c ReadX Mobile 🚀', 'color: #1d9bf0; font-size: 16px; font-weight: bold');
+  console.log(
+    "%c ReadX Mobile 🚀",
+    "color: #1d9bf0; font-size: 16px; font-weight: bold"
+  );
 
   // ==========================================
   // 核心代码：从 content.js 复制
@@ -65,22 +68,26 @@
     }
 
     isArticlePage() {
-      const articleView = document.querySelector('[data-testid="twitterArticleRichTextView"]');
-      const draftEditor = document.querySelector('.DraftEditor-root');
+      const articleView = document.querySelector(
+        '[data-testid="twitterArticleRichTextView"]'
+      );
+      const draftEditor = document.querySelector(".DraftEditor-root");
       const contentBlocks = document.querySelectorAll('[data-block="true"]');
-      
+
       return !!(articleView && draftEditor && contentBlocks.length > 0);
     }
 
     extractMainTweet() {
       if (this.isArticlePage()) {
-        console.log('检测到 Article 页面');
+        console.log("检测到 Article 页面");
         const articleExtractor = new ArticleExtractor();
         return articleExtractor.extract();
       }
 
-      console.log('检测到普通推文页面');
-      const tweetContainer = this.findElementByPriority(this.selectors.tweetContainers);
+      console.log("检测到普通推文页面");
+      const tweetContainer = this.findElementByPriority(
+        this.selectors.tweetContainers
+      );
       if (!tweetContainer) {
         throw new Error("无法找到推文容器");
       }
@@ -95,7 +102,10 @@
     }
 
     extractTweetText(container) {
-      const textElement = this.findElementByPriority(this.selectors.tweetText, container);
+      const textElement = this.findElementByPriority(
+        this.selectors.tweetText,
+        container
+      );
       if (!textElement) return null;
 
       return {
@@ -112,12 +122,16 @@
         userInfo.name = nameElement.textContent.trim();
       }
 
-      const avatarElement = container.querySelector(this.selectors.userInfo.avatar);
+      const avatarElement = container.querySelector(
+        this.selectors.userInfo.avatar
+      );
       if (avatarElement) {
         userInfo.avatar = avatarElement.src;
       }
 
-      const handleElement = container.querySelector(this.selectors.userInfo.handle);
+      const handleElement = container.querySelector(
+        this.selectors.userInfo.handle
+      );
       if (handleElement) {
         const href = handleElement.getAttribute("href");
         userInfo.handle = href ? href.replace("/", "@") : null;
@@ -128,7 +142,9 @@
 
     extractEngagementData(container) {
       const engagement = {};
-      for (const [type, selector] of Object.entries(this.selectors.engagement)) {
+      for (const [type, selector] of Object.entries(
+        this.selectors.engagement
+      )) {
         const button = container.querySelector(selector);
         if (button) {
           const ariaLabel = button.getAttribute("aria-label") || "";
@@ -169,19 +185,19 @@
     constructor() {
       this.selectors = {
         articleView: '[data-testid="twitterArticleRichTextView"]',
-        draftEditor: '.DraftEditor-root',
+        draftEditor: ".DraftEditor-root",
         contentBlocks: '[data-block="true"]',
         textSpans: 'span[data-text="true"]',
         title: '[data-testid="twitter-article-title"]',
         authorName: '[data-testid="User-Name"]',
         authorUsername: '[data-testid="User-Names"] a[href^="/"]',
-        timestamp: 'time[datetime]',
+        timestamp: "time[datetime]",
       };
     }
 
     extract() {
       return {
-        type: 'article',
+        type: "article",
         title: this.extractTitle(),
         user: this.extractAuthor(),
         content: this.extractContent(),
@@ -194,7 +210,7 @@
 
     extractTitle() {
       const titleElement = document.querySelector(this.selectors.title);
-      return titleElement ? titleElement.textContent.trim() : '';
+      return titleElement ? titleElement.textContent.trim() : "";
     }
 
     extractAuthor() {
@@ -204,11 +220,13 @@
         author.name = nameElement.textContent.trim();
       }
 
-      const usernameElement = document.querySelector(this.selectors.authorUsername);
+      const usernameElement = document.querySelector(
+        this.selectors.authorUsername
+      );
       if (usernameElement) {
         author.handle = usernameElement.textContent.trim();
-        if (!author.handle.startsWith('@')) {
-          author.handle = '@' + author.handle;
+        if (!author.handle.startsWith("@")) {
+          author.handle = "@" + author.handle;
         }
       }
 
@@ -220,14 +238,16 @@
       if (!timeElement) return null;
 
       return {
-        datetime: timeElement.getAttribute('datetime'),
+        datetime: timeElement.getAttribute("datetime"),
         text: timeElement.textContent.trim(),
-        timestamp: new Date(timeElement.getAttribute('datetime')),
+        timestamp: new Date(timeElement.getAttribute("datetime")),
       };
     }
 
     extractContent() {
-      const contentBlocks = document.querySelectorAll(this.selectors.contentBlocks);
+      const contentBlocks = document.querySelectorAll(
+        this.selectors.contentBlocks
+      );
       const content = [];
 
       contentBlocks.forEach((block, index) => {
@@ -242,31 +262,33 @@
 
     extractBlock(block, index) {
       const className = block.className;
-      
-      let type = 'paragraph';
-      if (className.includes('longform-header-two')) {
-        type = 'heading';
-      } else if (className.includes('longform-blockquote')) {
-        type = 'quote';
-      } else if (className.includes('longform-list-item')) {
-        type = 'list';
-      } else if (block.querySelector('img')) {
-        type = 'image';
+
+      let type = "paragraph";
+      if (className.includes("longform-header-two")) {
+        type = "heading";
+      } else if (className.includes("longform-blockquote")) {
+        type = "quote";
+      } else if (className.includes("longform-list-item")) {
+        type = "list";
+      } else if (block.querySelector("img")) {
+        type = "image";
       }
 
-      let text = '';
-      if (type !== 'image') {
+      let text = "";
+      if (type !== "image") {
         const textSpans = block.querySelectorAll(this.selectors.textSpans);
-        text = Array.from(textSpans).map(span => span.textContent).join('');
+        text = Array.from(textSpans)
+          .map((span) => span.textContent)
+          .join("");
       }
 
       let image = null;
-      if (type === 'image') {
-        const img = block.querySelector('img');
+      if (type === "image") {
+        const img = block.querySelector("img");
         if (img) {
           image = {
             src: img.src,
-            alt: img.alt || '',
+            alt: img.alt || "",
           };
         }
       }
@@ -325,11 +347,11 @@
 
     async createReadingModePage(content) {
       const settings = {
-        theme: 'light',
+        theme: "light",
         fontSize: 18,
         lineHeight: 1.7,
         maxWidth: 800,
-        fontFamily: 'system'
+        fontFamily: "system",
       };
 
       const html = this.generateHTML(content, settings);
@@ -339,7 +361,7 @@
     }
 
     generateHTML(content, settings) {
-      if (content.type === 'article') {
+      if (content.type === "article") {
         return this.generateArticleHTML(content, settings);
       }
       return this.generateTweetHTML(content, settings);
@@ -349,7 +371,9 @@
       const { title, user, content: articleContent, timestamp } = content;
 
       return `
-        <div id="readx-reading-mode" class="readx-container" data-theme="${settings.theme}">
+        <div id="readx-reading-mode" class="readx-container" data-theme="${
+          settings.theme
+        }">
           <header class="readx-header">
             <div class="readx-header-main">
               <button id="readx-settings-toggle" class="readx-settings-btn">⚙️</button>
@@ -365,7 +389,9 @@
               </div>
               <div class="readx-control-group">
                 <label>字号:</label>
-                <input type="range" id="readx-font-size" min="14" max="24" value="${settings.fontSize}">
+                <input type="range" id="readx-font-size" min="14" max="24" value="${
+                  settings.fontSize
+                }">
                 <span id="readx-font-size-value">${settings.fontSize}px</span>
               </div>
             </div>
@@ -373,11 +399,21 @@
 
           <main class="readx-content">
             <article class="readx-article-content">
-              <h1 class="readx-article-title">${this.escapeHtml(title) || "未命名文章"}</h1>
+              <h1 class="readx-article-title">${
+                this.escapeHtml(title) || "未命名文章"
+              }</h1>
               <div class="readx-article-meta">
-                <span class="readx-author-name">${this.escapeHtml(user.name) || "未知作者"}</span>
-                <span class="readx-author-handle">${this.escapeHtml(user.handle) || ""}</span>
-                ${timestamp ? `<time datetime="${timestamp.datetime}">${timestamp.text}</time>` : ""}
+                <span class="readx-author-name">${
+                  this.escapeHtml(user.name) || "未知作者"
+                }</span>
+                <span class="readx-author-handle">${
+                  this.escapeHtml(user.handle) || ""
+                }</span>
+                ${
+                  timestamp
+                    ? `<time datetime="${timestamp.datetime}">${timestamp.text}</time>`
+                    : ""
+                }
               </div>
               <div class="readx-article-body">
                 ${this.renderArticleContent(articleContent)}
@@ -392,7 +428,9 @@
       const { text, user, engagement, timestamp, media } = content;
 
       return `
-        <div id="readx-reading-mode" class="readx-container" data-theme="${settings.theme}">
+        <div id="readx-reading-mode" class="readx-container" data-theme="${
+          settings.theme
+        }">
           <header class="readx-header">
             <div class="readx-header-main">
               <button id="readx-settings-toggle" class="readx-settings-btn">⚙️</button>
@@ -408,7 +446,9 @@
               </div>
               <div class="readx-control-group">
                 <label>字号:</label>
-                <input type="range" id="readx-font-size" min="14" max="24" value="${settings.fontSize}">
+                <input type="range" id="readx-font-size" min="14" max="24" value="${
+                  settings.fontSize
+                }">
                 <span id="readx-font-size-value">${settings.fontSize}px</span>
               </div>
             </div>
@@ -417,31 +457,72 @@
           <main class="readx-content">
             <article class="readx-tweet">
               <header class="readx-tweet-header">
-                ${user.avatar ? `<img src="${user.avatar}" alt="头像" class="readx-avatar">` : ""}
+                ${
+                  user.avatar
+                    ? `<img src="${user.avatar}" alt="头像" class="readx-avatar">`
+                    : ""
+                }
                 <div class="readx-user-info">
-                  <h1 class="readx-user-name">${this.escapeHtml(user.name) || "未知用户"}</h1>
-                  <p class="readx-user-handle">${this.escapeHtml(user.handle) || ""}</p>
-                  ${timestamp ? `<time datetime="${timestamp.datetime}" class="readx-timestamp">${timestamp.text}</time>` : ""}
+                  <h1 class="readx-user-name">${
+                    this.escapeHtml(user.name) || "未知用户"
+                  }</h1>
+                  <p class="readx-user-handle">${
+                    this.escapeHtml(user.handle) || ""
+                  }</p>
+                  ${
+                    timestamp
+                      ? `<time datetime="${timestamp.datetime}" class="readx-timestamp">${timestamp.text}</time>`
+                      : ""
+                  }
                 </div>
               </header>
 
-              <div class="readx-tweet-text">${text ? text.html : "<p>无法提取推文内容</p>"}</div>
+              <div class="readx-tweet-text">${
+                text ? text.html : "<p>无法提取推文内容</p>"
+              }</div>
 
-              ${media && media.length > 0 ? `
+              ${
+                media && media.length > 0
+                  ? `
                 <div class="readx-media">
-                  ${media.map(m => `<img src="${m.src}" alt="${this.escapeHtml(m.alt)}" class="readx-media-image">`).join("")}
+                  ${media
+                    .map(
+                      (m) =>
+                        `<img src="${m.src}" alt="${this.escapeHtml(
+                          m.alt
+                        )}" class="readx-media-image">`
+                    )
+                    .join("")}
                 </div>
-              ` : ""}
+              `
+                  : ""
+              }
 
-              ${engagement ? `
+              ${
+                engagement
+                  ? `
                 <footer class="readx-engagement">
                   <div class="readx-stats">
-                    ${engagement.likes ? `<span class="readx-stat">❤️ ${engagement.likes.toLocaleString()}</span>` : ""}
-                    ${engagement.retweets ? `<span class="readx-stat">🔄 ${engagement.retweets.toLocaleString()}</span>` : ""}
-                    ${engagement.replies ? `<span class="readx-stat">💬 ${engagement.replies.toLocaleString()}</span>` : ""}
+                    ${
+                      engagement.likes
+                        ? `<span class="readx-stat">❤️ ${engagement.likes.toLocaleString()}</span>`
+                        : ""
+                    }
+                    ${
+                      engagement.retweets
+                        ? `<span class="readx-stat">🔄 ${engagement.retweets.toLocaleString()}</span>`
+                        : ""
+                    }
+                    ${
+                      engagement.replies
+                        ? `<span class="readx-stat">💬 ${engagement.replies.toLocaleString()}</span>`
+                        : ""
+                    }
                   </div>
                 </footer>
-              ` : ""}
+              `
+                  : ""
+              }
             </article>
           </main>
         </div>
@@ -453,74 +534,92 @@
         return '<p class="readx-article-paragraph">无法提取文章内容</p>';
       }
 
-      return content.map(block => {
-        switch (block.type) {
-          case 'heading':
-            return `<h2 class="readx-article-heading">${this.escapeHtml(block.text)}</h2>`;
-          case 'quote':
-            return `<blockquote class="readx-article-quote">${this.escapeHtml(block.text)}</blockquote>`;
-          case 'list':
-            return `<li class="readx-article-list-item">${this.escapeHtml(block.text)}</li>`;
-          case 'image':
-            if (block.image) {
-              return `<figure class="readx-article-image">
-                <img src="${block.image.src}" alt="${this.escapeHtml(block.image.alt)}" />
-                ${block.image.alt ? `<figcaption>${this.escapeHtml(block.image.alt)}</figcaption>` : ''}
+      return content
+        .map((block) => {
+          switch (block.type) {
+            case "heading":
+              return `<h2 class="readx-article-heading">${this.escapeHtml(
+                block.text
+              )}</h2>`;
+            case "quote":
+              return `<blockquote class="readx-article-quote">${this.escapeHtml(
+                block.text
+              )}</blockquote>`;
+            case "list":
+              return `<li class="readx-article-list-item">${this.escapeHtml(
+                block.text
+              )}</li>`;
+            case "image":
+              if (block.image) {
+                return `<figure class="readx-article-image">
+                <img src="${block.image.src}" alt="${this.escapeHtml(
+                  block.image.alt
+                )}" />
+                ${
+                  block.image.alt
+                    ? `<figcaption>${this.escapeHtml(
+                        block.image.alt
+                      )}</figcaption>`
+                    : ""
+                }
               </figure>`;
-            }
-            return '';
-          case 'paragraph':
-          default:
-            if (!block.text || block.text.trim() === '') {
-              return '';
-            }
-            return `<p class="readx-article-paragraph">${this.escapeHtml(block.text)}</p>`;
-        }
-      }).join('\n');
+              }
+              return "";
+            case "paragraph":
+            default:
+              if (!block.text || block.text.trim() === "") {
+                return "";
+              }
+              return `<p class="readx-article-paragraph">${this.escapeHtml(
+                block.text
+              )}</p>`;
+          }
+        })
+        .join("\n");
     }
 
     escapeHtml(text) {
-      if (!text) return '';
-      const div = document.createElement('div');
+      if (!text) return "";
+      const div = document.createElement("div");
       div.textContent = text;
       return div.innerHTML;
     }
 
     setupEventListeners() {
-      const closeBtn = document.getElementById('readx-close');
+      const closeBtn = document.getElementById("readx-close");
       if (closeBtn) {
-        closeBtn.addEventListener('click', () => this.exitReadingMode());
+        closeBtn.addEventListener("click", () => this.exitReadingMode());
       }
 
-      const settingsBtn = document.getElementById('readx-settings-toggle');
-      const controlsPanel = document.getElementById('readx-controls-panel');
+      const settingsBtn = document.getElementById("readx-settings-toggle");
+      const controlsPanel = document.getElementById("readx-controls-panel");
       if (settingsBtn && controlsPanel) {
-        settingsBtn.addEventListener('click', () => {
-          const isVisible = controlsPanel.style.display !== 'none';
-          controlsPanel.style.display = isVisible ? 'none' : 'flex';
-          settingsBtn.classList.toggle('active', !isVisible);
+        settingsBtn.addEventListener("click", () => {
+          const isVisible = controlsPanel.style.display !== "none";
+          controlsPanel.style.display = isVisible ? "none" : "flex";
+          settingsBtn.classList.toggle("active", !isVisible);
         });
       }
 
-      const themeSelect = document.getElementById('readx-theme');
+      const themeSelect = document.getElementById("readx-theme");
       if (themeSelect) {
-        themeSelect.addEventListener('change', (e) => {
-          const container = document.querySelector('.readx-container');
+        themeSelect.addEventListener("change", (e) => {
+          const container = document.querySelector(".readx-container");
           if (container) {
-            container.setAttribute('data-theme', e.target.value);
+            container.setAttribute("data-theme", e.target.value);
           }
         });
       }
 
-      const fontSizeSlider = document.getElementById('readx-font-size');
-      const fontSizeValue = document.getElementById('readx-font-size-value');
+      const fontSizeSlider = document.getElementById("readx-font-size");
+      const fontSizeValue = document.getElementById("readx-font-size-value");
       if (fontSizeSlider && fontSizeValue) {
-        fontSizeSlider.addEventListener('input', (e) => {
+        fontSizeSlider.addEventListener("input", (e) => {
           const size = e.target.value;
-          fontSizeValue.textContent = size + 'px';
-          const content = document.querySelector('.readx-content');
+          fontSizeValue.textContent = size + "px";
+          const content = document.querySelector(".readx-content");
           if (content) {
-            content.style.fontSize = size + 'px';
+            content.style.fontSize = size + "px";
           }
         });
       }
@@ -535,15 +634,17 @@
   // 移动端 CSS 注入
   // ==========================================
   function injectCSS() {
-    const cssId = 'readx-mobile-styles';
+    const cssId = "readx-mobile-styles";
     if (document.getElementById(cssId)) {
       return;
     }
 
-    const link = document.createElement('link');
+    const link = document.createElement("link");
     link.id = cssId;
-    link.rel = 'stylesheet';
-    link.href = 'data:text/css;base64,' + btoa(`
+    link.rel = "stylesheet";
+    link.href =
+      "data:text/css;base64," +
+      btoa(`
       /* 这里包含移动端优化的完整 CSS - 从 bookmarklet.js 复制 */
       ${getMobileCSS()}
     `);
@@ -576,22 +677,21 @@
   // ==========================================
   function init() {
     injectCSS();
-    
+
     // 创建全局实例
     window.readingModeManager = new ReadingModeManager();
-    
+
     // 等待一下再启动
     setTimeout(() => {
       window.readingModeManager.toggleReadingMode();
-      console.log('✅ ReadX Mobile 已启动');
+      console.log("✅ ReadX Mobile 已启动");
     }, 300);
   }
 
   // 执行初始化
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
   } else {
     init();
   }
-
 })();

@@ -1,19 +1,19 @@
 /**
  * ReadX Mobile Bookmarklet
  * 移动端阅读模式注入脚本
- * 
+ *
  * 使用方法：
  * 1. 在 X.com 推文或 Article 页面
  * 2. 通过快捷指令或书签执行此脚本
  * 3. 自动进入阅读模式
  */
 
-(function() {
-  'use strict';
+(function () {
+  "use strict";
 
   // 防止重复注入
   if (window.ReadXMobileInjected) {
-    console.log('ReadX 已加载，切换阅读模式');
+    console.log("ReadX 已加载，切换阅读模式");
     if (window.readingModeManager) {
       window.readingModeManager.toggleReadingMode();
     }
@@ -21,18 +21,18 @@
   }
   window.ReadXMobileInjected = true;
 
-  console.log('ReadX Mobile Bookmarklet 开始加载...');
+  console.log("ReadX Mobile Bookmarklet 开始加载...");
 
   // ==========================================
   // 1. 注入 CSS 样式
   // ==========================================
   function injectCSS() {
-    const cssId = 'readx-mobile-styles';
+    const cssId = "readx-mobile-styles";
     if (document.getElementById(cssId)) {
       return; // 已注入
     }
 
-    const style = document.createElement('style');
+    const style = document.createElement("style");
     style.id = cssId;
     style.textContent = `
       /* ReadX Mobile Styles - 基于原有样式，增加移动端优化 */
@@ -439,7 +439,7 @@
     `;
 
     document.head.appendChild(style);
-    console.log('CSS 样式已注入');
+    console.log("CSS 样式已注入");
   }
 
   // ==========================================
@@ -447,21 +447,25 @@
   // ==========================================
   function injectJS() {
     // 检查是否已经注入过核心类
-    if (window.ReadXExtractor && window.ArticleExtractor && window.ReadingModeManager) {
-      console.log('核心 JS 已存在，跳过注入');
+    if (
+      window.ReadXExtractor &&
+      window.ArticleExtractor &&
+      window.ReadingModeManager
+    ) {
+      console.log("核心 JS 已存在，跳过注入");
       return;
     }
 
     // 动态加载完整的 content.js
     // 在生产环境中，这将指向 CDN 或 GitHub Pages
-    const script = document.createElement('script');
-    script.src = 'https://your-domain.github.io/ReadX/mobile/readx-core.min.js';
-    script.onerror = function() {
-      console.error('无法加载 ReadX 核心代码');
-      alert('ReadX 加载失败，请检查网络连接');
+    const script = document.createElement("script");
+    script.src = "https://your-domain.github.io/ReadX/mobile/readx-core.min.js";
+    script.onerror = function () {
+      console.error("无法加载 ReadX 核心代码");
+      alert("ReadX 加载失败，请检查网络连接");
     };
-    script.onload = function() {
-      console.log('ReadX 核心代码已加载');
+    script.onload = function () {
+      console.log("ReadX 核心代码已加载");
     };
     document.head.appendChild(script);
   }
@@ -472,23 +476,23 @@
   function addMobileFeatures() {
     // 添加手势提示
     setTimeout(() => {
-      const hint = document.createElement('div');
-      hint.className = 'readx-gesture-hint';
-      hint.textContent = '再次点击关闭按钮退出阅读模式';
+      const hint = document.createElement("div");
+      hint.className = "readx-gesture-hint";
+      hint.textContent = "再次点击关闭按钮退出阅读模式";
       document.body.appendChild(hint);
-      
+
       setTimeout(() => {
         hint.remove();
       }, 3000);
     }, 500);
 
     // 监听设备旋转
-    window.addEventListener('orientationchange', () => {
+    window.addEventListener("orientationchange", () => {
       // 重新调整布局
       setTimeout(() => {
-        const content = document.querySelector('.readx-content');
+        const content = document.querySelector(".readx-content");
         if (content) {
-          content.style.maxWidth = window.innerWidth > 768 ? '800px' : '100%';
+          content.style.maxWidth = window.innerWidth > 768 ? "800px" : "100%";
         }
       }, 100);
     });
@@ -496,7 +500,10 @@
     // 防止页面缩放
     const viewport = document.querySelector('meta[name="viewport"]');
     if (viewport) {
-      viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+      viewport.setAttribute(
+        "content",
+        "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      );
     }
   }
 
@@ -509,8 +516,8 @@
     addMobileFeatures();
 
     // 等待 DOM 加载完成后启动阅读模式
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => {
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", () => {
         setTimeout(initReadingMode, 500);
       });
     } else {
@@ -520,15 +527,13 @@
     function initReadingMode() {
       if (window.readingModeManager) {
         window.readingModeManager.toggleReadingMode();
-        console.log('ReadX Mobile 阅读模式已启动');
+        console.log("ReadX Mobile 阅读模式已启动");
       } else {
-        console.error('ReadingModeManager 未找到');
+        console.error("ReadingModeManager 未找到");
       }
     }
-
   } catch (error) {
-    console.error('ReadX Mobile 加载失败:', error);
-    alert('ReadX 加载失败，请刷新页面重试');
+    console.error("ReadX Mobile 加载失败:", error);
+    alert("ReadX 加载失败，请刷新页面重试");
   }
-
 })();
