@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReadX Mobile - 安装</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.6;
+      color: #0f1419;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 700;
+      color: #667eea;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 24px;
+      font-weight: 600;
+      margin: 24px 0 16px;
+      color: #0f1419;
+    }
+
+    h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 20px 0 12px;
+      color: #536471;
+    }
+
+    p {
+      margin-bottom: 16px;
+      color: #536471;
+      font-size: 16px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 40px 0;
+    }
+
+    .logo {
+      font-size: 64px;
+      margin-bottom: 16px;
+    }
+
+    .tagline {
+      font-size: 18px;
+      color: #657786;
+      margin-bottom: 32px;
+    }
+
+    .install-button {
+      display: inline-block;
+      background: #1d9bf0;
+      color: white;
+      padding: 16px 32px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(29, 155, 240, 0.4);
+      transition: all 0.3s ease;
+      margin: 8px;
+    }
+
+    .install-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(29, 155, 240, 0.5);
+    }
+
+    .install-button.secondary {
+      background: #667eea;
+    }
+
+    .step {
+      background: #f7f9fa;
+      padding: 16px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      border-left: 4px solid #1d9bf0;
+    }
+
+    .step-number {
+      display: inline-block;
+      background: #1d9bf0;
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 28px;
+      font-weight: 600;
+      margin-right: 12px;
+    }
+
+    .code-block {
+      background: #0f1419;
+      color: #e7e9ea;
+      padding: 16px;
+      border-radius: 8px;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 13px;
+      overflow-x: auto;
+      margin: 16px 0;
+      word-wrap: break-word;
+      word-break: break-all;
+    }
+
+    .feature-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .feature-list li {
+      padding: 12px 0;
+      padding-left: 32px;
+      position: relative;
+    }
+
+    .feature-list li:before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #1d9bf0;
+      font-weight: 700;
+      font-size: 20px;
+    }
+
+    .warning {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 16px;
+      border-radius: 8px;
+      margin: 16px 0;
+    }
+
+    .success {
+      background: #d4edda;
+      border-left: 4px solid #28a745;
+      padding: 16px;
+      border-radius: 8px;
+      margin: 16px 0;
+    }
+
+    .button-group {
+      text-align: center;
+      margin: 32px 0;
+    }
+
+    @media (max-width: 768px) {
+      .card {
+        padding: 24px 20px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+
+      .install-button {
+        display: block;
+        margin: 12px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Hero Section -->
+    <div class="card hero">
+      <div class="logo">📖</div>
+      <h1>ReadX Mobile</h1>
+      <p class="tagline">在手机上享受清爽的 X.com 阅读体验</p>
+      
+      <div class="button-group">
+        <a href="#ios-shortcut" class="install-button">iOS 快捷指令</a>
+        <a href="#bookmarklet" class="install-button secondary">Bookmarklet</a>
+      </div>
+    </div>
+
+    <!-- iOS 快捷指令安装 -->
+    <div class="card" id="ios-shortcut">
+      <h2>📱 方法 1：iOS 快捷指令（推荐）</h2>
+      <p>最简单的方式，适用于 iPhone 和 iPad</p>
+
+      <h3>安装步骤：</h3>
+      
+      <div class="step">
+        <span class="step-number">1</span>
+        <strong>打开快捷指令 App</strong><br>
+        在 iOS 设备上找到"快捷指令" App（系统自带）
+      </div>
+
+      <div class="step">
+        <span class="step-number">2</span>
+        <strong>创建新快捷指令</strong><br>
+        点击右上角的"+"号，创建新快捷指令
+      </div>
+
+      <div class="step">
+        <span class="step-number">3</span>
+        <strong>添加"在 Safari 中打开 URL"操作</strong><br>
+        搜索并添加"在 Safari 中打开 URL"操作
+      </div>
+
+      <div class="step">
+        <span class="step-number">4</span>
+        <strong>设置 URL</strong><br>
+        在 URL 字段中输入：<code>快捷方式输入</code>（变量）
+      </div>
+
+      <div class="step">
+        <span class="step-number">5</span>
+        <strong>添加"运行 JavaScript"操作</strong><br>
+        在上一步后面添加"在网页上运行 JavaScript"操作
+      </div>
+
+      <div class="step">
+        <span class="step-number">6</span>
+        <strong>粘贴代码</strong><br>
+        将下面的代码复制粘贴到 JavaScript 区域：
+      </div>
+
+      <div class="code-block" id="shortcut-code">
+var s=document.createElement('script');
+s.src='https://你的域名/ReadX/mobile/readx-mobile.js';
+document.head.appendChild(s);
+      </div>
+
+      <button onclick="copyCode('shortcut-code')" class="install-button" style="width: 100%;">复制代码</button>
+
+      <div class="step">
+        <span class="step-number">7</span>
+        <strong>命名并保存</strong><br>
+        将快捷指令命名为"ReadX 阅读模式"，点击"完成"
+      </div>
+
+      <h3>使用方法：</h3>
+      <ul class="feature-list">
+        <li>在 X App 中打开推文或 Article</li>
+        <li>点击"分享"按钮</li>
+        <li>选择"ReadX 阅读模式"快捷指令</li>
+        <li>自动在 Safari 中打开并显示阅读模式</li>
+      </ul>
+
+      <div class="success">
+        <strong>✅ 优点：</strong><br>
+        • 无需任何安装，使用系统功能<br>
+        • 从 X App 直接分享，一键启动<br>
+        • 完全免费，无需开发者账号
+      </div>
+    </div>
+
+    <!-- Bookmarklet 安装 -->
+    <div class="card" id="bookmarklet">
+      <h2>🔖 方法 2：Bookmarklet（书签小程序）</h2>
+      <p>适用于在 Safari 中浏览 X.com 的场景</p>
+
+      <h3>安装步骤：</h3>
+      
+      <div class="step">
+        <span class="step-number">1</span>
+        <strong>复制下面的代码</strong>
+      </div>
+
+      <div class="code-block" id="bookmarklet-code">
+javascript:(function(){var s=document.createElement('script');s.src='https://你的域名/ReadX/mobile/readx-mobile.js';document.head.appendChild(s);})();
+      </div>
+
+      <button onclick="copyCode('bookmarklet-code')" class="install-button" style="width: 100%;">复制代码</button>
+
+      <div class="step">
+        <span class="step-number">2</span>
+        <strong>创建书签</strong><br>
+        在 Safari 中随便打开一个网页，点击分享按钮 → "添加书签"
+      </div>
+
+      <div class="step">
+        <span class="step-number">3</span>
+        <strong>编辑书签</strong><br>
+        • 名称改为："ReadX 阅读"<br>
+        • 地址粘贴刚才复制的代码<br>
+        • 保存到"个人收藏"
+      </div>
+
+      <h3>使用方法：</h3>
+      <ul class="feature-list">
+        <li>在 Safari 中打开 X.com 推文或 Article 页面</li>
+        <li>点击地址栏，输入"ReadX"找到书签</li>
+        <li>点击书签，自动进入阅读模式</li>
+      </ul>
+
+      <div class="warning">
+        <strong>⚠️ 注意：</strong><br>
+        Bookmarklet 只能在 Safari 浏览器中使用，不能在 X App 内部使用。
+      </div>
+    </div>
+
+    <!-- 特性介绍 -->
+    <div class="card">
+      <h2>✨ 主要功能</h2>
+      <ul class="feature-list">
+        <li>支持普通推文和 Article 页面</li>
+        <li>移动端优化：大按钮、大字号</li>
+        <li>深色模式支持</li>
+        <li>字号、行距自由调整</li>
+        <li>触摸滑动流畅</li>
+        <li>无广告、无干扰</li>
+      </ul>
+    </div>
+
+    <!-- 托管说明 -->
+    <div class="card">
+      <h2>🚀 托管方式</h2>
+      <p>在使用前，你需要将 <code>readx-mobile.js</code> 文件托管到可访问的位置：</p>
+
+      <h3>选项 1：GitHub Pages（推荐）</h3>
+      <div class="step">
+        <strong>1.</strong> 将 <code>mobile/</code> 文件夹上传到你的 GitHub 仓库<br>
+        <strong>2.</strong> 在仓库设置中启用 GitHub Pages<br>
+        <strong>3.</strong> 使用 URL：<code>https://你的用户名.github.io/ReadX/mobile/readx-mobile.js</code>
+      </div>
+
+      <h3>选项 2：其他托管服务</h3>
+      <p>也可以使用 Vercel、Netlify、Cloudflare Pages 等服务托管</p>
+
+      <div class="warning">
+        <strong>重要：</strong><br>
+        记得将上面代码中的 <code>https://你的域名/ReadX/mobile/readx-mobile.js</code> 替换为你的实际 URL！
+      </div>
+    </div>
+
+    <!-- 常见问题 -->
+    <div class="card">
+      <h2>❓ 常见问题</h2>
+
+      <h3>Q: 为什么在 X App 中无法直接使用？</h3>
+      <p>A: X App 是原生应用，不允许注入 JavaScript。必须通过快捷指令打开 Safari 才能使用。</p>
+
+      <h3>Q: 可以保存阅读历史吗？</h3>
+      <p>A: 当前版本不支持。如需此功能，建议后续开发独立 iOS App。</p>
+
+      <h3>Q: 为什么有时加载失败？</h3>
+      <p>A: 请检查：<br>
+      1. 网络连接是否正常<br>
+      2. 托管的 JS 文件 URL 是否正确<br>
+      3. 是否在推文或 Article 页面上</p>
+
+      <h3>Q: 如何退出阅读模式？</h3>
+      <p>A: 点击右上角的 ✕ 按钮，或者返回上一页。</p>
+    </div>
+
+    <!-- Footer -->
+    <div class="card" style="text-align: center; color: #657786;">
+      <p>Made with ❤️ for better reading experience</p>
+      <p style="font-size: 14px;">ReadX Mobile v1.0</p>
+    </div>
+  </div>
+
+  <script>
+    function copyCode(elementId) {
+      const codeBlock = document.getElementById(elementId);
+      const text = codeBlock.textContent.trim();
+      
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast('✅ 已复制到剪贴板');
+        }).catch(() => {
+          fallbackCopy(text);
+        });
+      } else {
+        fallbackCopy(text);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      
+      try {
+        document.execCommand('copy');
+        showToast('✅ 已复制到剪贴板');
+      } catch (err) {
+        showToast('❌ 复制失败，请手动复制');
+      }
+      
+      document.body.removeChild(textarea);
+    }
+
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.textContent = message;
+      toast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 24px;
+        z-index: 9999;
+        font-size: 14px;
+        animation: fadeInOut 2s ease-in-out;
+      `;
+      
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        document.body.removeChild(toast);
+      }, 2000);
+    }
+
+    // 添加动画
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes fadeInOut {
+        0%, 100% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+        10%, 90% { opacity: 1; transform: translateX(-50%) translateY(0); }
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>
